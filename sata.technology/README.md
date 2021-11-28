@@ -1,18 +1,19 @@
+# sata.technology
 
-# Dev Build
+## Dev Build
 
 ``` sh
 yarn install
 yarn start
 ```
 
-# Build Container
+## Build Container
 
 ``` sh
-$ docker build -t sata-web .
+$ docker build -t satatechnology .
 ```
 
-# Deploy Container
+## Deploy Container
 
 ``` sh
 
