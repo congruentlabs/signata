@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "issuerDid": "did:web:issuer-demo.signata.xyz",
+      "displayName": "Demo Government Issuer (not for production)",
+      "jurisdiction": "ZZ",
+      "accreditationLevel": "demo",
+      "validFrom": "2026-01-01",
+      "contactUrl": "https://issuer-demo.signata.xyz"
+    }
+  ]
+}

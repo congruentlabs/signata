@@ -1,0 +1,19 @@
+{
+  "@context": ["https://www.w3.org/ns/did/v1"],
+  "id": "did:web:issuer-demo.signata.xyz",
+  "verificationMethod": [
+    {
+      "id": "did:web:issuer-demo.signata.xyz#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:issuer-demo.signata.xyz",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "REPLACE_WHEN_KEY_GENERATED",
+        "y": "REPLACE_WHEN_KEY_GENERATED"
+      }
+    }
+  ],
+  "assertionMethod": ["did:web:issuer-demo.signata.xyz#key-1"],
+  "comment": "Placeholder DID document. Regenerate with a real keypair when the issuer's signing infrastructure is in place."
+}
