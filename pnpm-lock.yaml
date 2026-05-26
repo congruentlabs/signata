@@ -201,7 +201,10 @@ importers:
 
   packages/verifier:
     dependencies:
-      '@sd-jwt/core':
+      '@sd-jwt/decode':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@sd-jwt/types':
         specifier: ^0.10.0
         version: 0.10.0
       did-resolver:
@@ -214,6 +217,12 @@ importers:
         specifier: ^2.0.27
         version: 2.0.32
     devDependencies:
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.10.0
+        version: 0.10.0
+      '@sd-jwt/utils':
+        specifier: ^0.10.0
+        version: 0.10.0
       typescript:
         specifier: ^5.7.0
         version: 5.9.3
@@ -1065,8 +1074,16 @@ packages:
     resolution: {integrity: sha512-djNWMWpF1kUVh1fM/lRrmoQtTaJy8J0mS0bu96XPL5Jea5ov4klxOtSvuYmPFFcqLpxyrLOIwcbqmVQ20Mdzpg==}
     engines: {node: '>=18'}
 
+  '@sd-jwt/jwt-status-list@0.10.0':
+    resolution: {integrity: sha512-TVLLQ7qjZKKEXODXUAxoWvJmnH3bSNXsttp0hxVP/qv42Rk7OFKIjepkzy6lh+RQRWw3NK/rHiz95/Fz1m4xBQ==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/present@0.10.0':
     resolution: {integrity: sha512-ITkyXAfdPOnfWlPgGkHpN1JxaOCC/A8Oid0CUY25AsGuwkSCw9rd+B0nwG5KBwmf1RaOG75FkvwmSCHXBlHgUg==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/sd-jwt-vc@0.10.0':
+    resolution: {integrity: sha512-418TX436dBK7FnwsLJXUXnTQByZQOonCuJ4vKyrOJ27mZXxkiFiLSaUojqoFerSw5u29nwrcRRJzd1NLdLWqkQ==}
     engines: {node: '>=18'}
 
   '@sd-jwt/types@0.10.0':
@@ -1285,6 +1302,17 @@ packages:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
     engines: {node: '>=8'}
 
+  ajv-formats@3.0.1:
+    resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+
+  ajv@8.20.0:
+    resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
+
   ansi-align@3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
 
@@ -1332,6 +1360,10 @@ packages:
 
   base-x@3.0.11:
     resolution: {integrity: sha512-xz7wQ8xDhdyP7tQxwdteLYeFfS68tSMNCZ/Y37WJ4bhGfKPpqEIlmIyueQHqOyoPhE6xNUqjzRr8ra0eF9VRvA==}
+
+  base64url@3.0.1:
+    resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
+    engines: {node: '>=6.0.0'}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -1641,6 +1673,12 @@ packages:
     resolution: {integrity: sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==}
     engines: {node: '>=12.0.0'}
 
+  fast-deep-equal@3.1.3:
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
+  fast-uri@3.1.2:
+    resolution: {integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==}
+
   fdir@6.5.0:
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
     engines: {node: '>=12.0.0'}
@@ -1901,6 +1939,9 @@ packages:
 
   json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
+
+  json-schema-traverse@1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
   jsonfile@2.4.0:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
@@ -3628,11 +3669,25 @@ snapshots:
       '@sd-jwt/types': 0.10.0
       '@sd-jwt/utils': 0.10.0
 
+  '@sd-jwt/jwt-status-list@0.10.0':
+    dependencies:
+      '@sd-jwt/types': 0.10.0
+      base64url: 3.0.1
+      pako: 2.1.0
+
   '@sd-jwt/present@0.10.0':
     dependencies:
       '@sd-jwt/decode': 0.10.0
       '@sd-jwt/types': 0.10.0
       '@sd-jwt/utils': 0.10.0
+
+  '@sd-jwt/sd-jwt-vc@0.10.0':
+    dependencies:
+      '@sd-jwt/core': 0.10.0
+      '@sd-jwt/jwt-status-list': 0.10.0
+      '@sd-jwt/utils': 0.10.0
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
 
   '@sd-jwt/types@0.10.0': {}
 
@@ -3799,7 +3854,7 @@ snapshots:
       loupe: 3.2.1
       tinyrainbow: 1.2.0
 
-  '@wagmi/connectors@8.0.14(@wagmi/core@3.4.12(@tanstack/query-core@5.100.14)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3)))(typescript@5.9.3)(viem@2.51.0(typescript@5.9.3))':
+  '@wagmi/connectors@8.0.14(@wagmi/core@3.4.12(@tanstack/query-core@5.100.14)(@types/react@19.2.15)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3)))(typescript@5.9.3)(viem@2.51.0(typescript@5.9.3))':
     dependencies:
       '@wagmi/core': 3.4.12(@tanstack/query-core@5.100.14)(@types/react@19.2.15)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3))
       viem: 2.51.0(typescript@5.9.3)
@@ -3839,6 +3894,17 @@ snapshots:
     dependencies:
       clean-stack: 2.2.0
       indent-string: 4.0.0
+
+  ajv-formats@3.0.1(ajv@8.20.0):
+    optionalDependencies:
+      ajv: 8.20.0
+
+  ajv@8.20.0:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.1.2
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
 
   ansi-align@3.0.1:
     dependencies:
@@ -3884,6 +3950,8 @@ snapshots:
   base-x@3.0.11:
     dependencies:
       safe-buffer: 5.2.1
+
+  base64url@3.0.1: {}
 
   binary-extensions@2.3.0: {}
 
@@ -4269,6 +4337,10 @@ snapshots:
 
   expect-type@1.3.0: {}
 
+  fast-deep-equal@3.1.3: {}
+
+  fast-uri@3.1.2: {}
+
   fdir@6.5.0(picomatch@4.0.4):
     optionalDependencies:
       picomatch: 4.0.4
@@ -4555,6 +4627,8 @@ snapshots:
   jsesc@3.1.0: {}
 
   json-parse-even-better-errors@2.3.1: {}
+
+  json-schema-traverse@1.0.0: {}
 
   jsonfile@2.4.0:
     optionalDependencies:
@@ -5282,7 +5356,7 @@ snapshots:
   wagmi@3.6.15(@tanstack/query-core@5.100.14)(@tanstack/react-query@5.100.14(react@19.2.6))(@types/react@19.2.15)(react@19.2.6)(typescript@5.9.3)(viem@2.51.0(typescript@5.9.3)):
     dependencies:
       '@tanstack/react-query': 5.100.14(react@19.2.6)
-      '@wagmi/connectors': 8.0.14(@wagmi/core@3.4.12(@tanstack/query-core@5.100.14)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3)))(typescript@5.9.3)(viem@2.51.0(typescript@5.9.3))
+      '@wagmi/connectors': 8.0.14(@wagmi/core@3.4.12(@tanstack/query-core@5.100.14)(@types/react@19.2.15)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3)))(typescript@5.9.3)(viem@2.51.0(typescript@5.9.3))
       '@wagmi/core': 3.4.12(@tanstack/query-core@5.100.14)(@types/react@19.2.15)(react@19.2.6)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.6))(viem@2.51.0(typescript@5.9.3))
       react: 19.2.6
       use-sync-external-store: 1.4.0(react@19.2.6)

@@ -24,6 +24,8 @@ export interface VerificationResult {
   warnings: string[];
   /** Reason the credential is invalid, if `valid` is false. */
   reason?: VerificationFailureReason;
+  /** Developer-facing detail accompanying `reason`. */
+  reasonDetail?: string;
 }
 
 export type VerificationFailureReason =
