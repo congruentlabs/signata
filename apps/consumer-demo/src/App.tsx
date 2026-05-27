@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Alert,
   Box,
-  Button,
   Container,
   CssBaseline,
   Stack,
@@ -10,44 +9,67 @@ import {
   Typography,
   createTheme,
 } from '@mui/material';
+import AttestationGate from './components/AttestationGate.js';
+import GateOverlay from './components/GateOverlay.js';
+import Marketplace from './components/Marketplace.js';
+import ConnectButton from './components/ConnectButton.js';
 
-const theme = createTheme({ palette: { mode: 'light' } });
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: { main: '#3a2a1a' },
+  },
+  typography: {
+    h3: { letterSpacing: -0.5 },
+    h4: { letterSpacing: -0.3 },
+  },
+});
 
 export default function App(): React.ReactElement {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="md" sx={{ pt: 8, pb: 8 }}>
-        <Stack spacing={3}>
-          <Box>
-            <Typography variant="overline" color="primary" sx={{ letterSpacing: 2 }}>
-              Sample consumer
-            </Typography>
-            <Typography variant="h3" sx={{ fontWeight: 700, mt: 1 }}>
-              Age-gated demo
-            </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, mt: 2 }}>
-              An example of a dApp that grants access only to wallets holding a
-              valid Signata-bridged attestation. None of the user&apos;s personal
-              information is requested or stored here.
-            </Typography>
-          </Box>
-          <Alert severity="info">
-            Attestation gate not yet wired. Once <code>@signata/sdk</code> can
-            verify attestations on-chain, this page will surface either the gated
-            content or a link to the Signata Bridge dApp to acquire the
-            attestation.
-          </Alert>
-          <Button
-            variant="contained"
-            size="large"
-            disabled
-            onClick={() => undefined}
-          >
-            Verify via Signata Bridge
-          </Button>
-        </Stack>
-      </Container>
+      <AttestationGate>
+        {(ctx) => (
+          <>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: 'divider',
+                bgcolor: 'background.paper',
+                position: 'sticky',
+                top: 0,
+                zIndex: 5,
+              }}
+            >
+              <Container maxWidth="lg">
+                <Stack
+                  direction="row"
+                  sx={{ alignItems: 'center', justifyContent: 'space-between', py: 1.5 }}
+                >
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                    Spirits Cellar
+                  </Typography>
+                  <ConnectButton />
+                </Stack>
+              </Container>
+            </Box>
+
+            <Container maxWidth="lg" sx={{ pt: 4, pb: 8 }}>
+              <Alert severity="info" sx={{ mb: 3 }}>
+                This is a Signata Bridge demo — a sample of what an age-gated dApp can
+                look like when it accepts a verified-credential attestation in place
+                of a self-declared birthdate. No real spirits are being sold and no
+                payments are being taken.
+              </Alert>
+
+              <Marketplace blurred={ctx.status !== 'allowed'} />
+            </Container>
+
+            <GateOverlay ctx={ctx} />
+          </>
+        )}
+      </AttestationGate>
     </ThemeProvider>
   );
 }
