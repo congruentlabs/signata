@@ -81,9 +81,9 @@ importers:
       '@mui/material':
         specifier: ^9.0.0
         version: 9.0.1(@emotion/react@11.14.0(@types/react@19.2.15)(react@19.2.6))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.15)(react@19.2.6))(@types/react@19.2.15)(react@19.2.6))(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      jose:
-        specifier: ^5.9.0
-        version: 5.10.0
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.10.0
+        version: 0.10.0
       react:
         specifier: ^19.0.0
         version: 19.2.6

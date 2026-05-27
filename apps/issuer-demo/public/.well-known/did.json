@@ -1,5 +1,8 @@
 {
-  "@context": ["https://www.w3.org/ns/did/v1"],
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
   "id": "did:web:issuer-demo.signata.xyz",
   "verificationMethod": [
     {
@@ -9,11 +12,17 @@
       "publicKeyJwk": {
         "kty": "EC",
         "crv": "P-256",
-        "x": "REPLACE_WHEN_KEY_GENERATED",
-        "y": "REPLACE_WHEN_KEY_GENERATED"
+        "x": "cbWQ5P4YoKK2rQKXjcI7mHWEcGivo1ezx-IFrbRYRvk",
+        "y": "eob2FK3xvIETfWa-1lbRfAQZ3SwT2HvmOBirIj2BXhQ",
+        "alg": "ES256",
+        "use": "sig"
       }
     }
   ],
-  "assertionMethod": ["did:web:issuer-demo.signata.xyz#key-1"],
-  "comment": "Placeholder DID document. Regenerate with a real keypair when the issuer's signing infrastructure is in place."
+  "assertionMethod": [
+    "did:web:issuer-demo.signata.xyz#key-1"
+  ],
+  "authentication": [
+    "did:web:issuer-demo.signata.xyz#key-1"
+  ]
 }
