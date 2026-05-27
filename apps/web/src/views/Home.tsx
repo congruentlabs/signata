@@ -55,7 +55,7 @@ export default function Home(): React.ReactElement {
           </CardContent>
         </Card>
 
-        <Box>
+        <Stack direction="row" spacing={2} sx={{ flexWrap: 'wrap' }} useFlexGap>
           <Button
             component={RouterLink}
             to="/import"
@@ -65,7 +65,10 @@ export default function Home(): React.ReactElement {
           >
             Import a credential
           </Button>
-        </Box>
+          <Button component={RouterLink} to="/attestations" variant="outlined" size="large">
+            View my attestations
+          </Button>
+        </Stack>
       </Stack>
     </Container>
   );

@@ -44,6 +44,7 @@ export {
 
 // Write path
 export { bridgeCredential, getAttestationUidFromTx } from './bridge.js';
+export { revokeAttestation } from './revoke.js';
 
 // Read path
 export { findAttestations, getAttestation } from './read.js';
