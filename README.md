@@ -74,8 +74,57 @@ pnpm --filter @signata/consumer-demo dev
 ## Credential formats
 
 Current focus is SD-JWT VC (the format adopted by the EU Digital Identity
-Wallet). W3C JWT-VC and ISO 18013-5 mDoc are planned. JSON-LD VCs and
-AnonCreds are out of scope unless a specific consumer requires them.
+Wallet). W3C JWT-VC is also supported. ISO 18013-5 mDoc is planned.
+JSON-LD VCs and AnonCreds are out of scope unless a specific consumer
+requires them.
+
+## Deployment
+
+Each app deploys to a separate Cloudflare Pages project:
+
+| App | Project name | Custom domain |
+| --- | --- | --- |
+| `apps/web` | `signata-web` | `signata.xyz` |
+| `apps/issuer-demo` | `signata-issuer-demo` | `issuer-demo.signata.xyz` |
+| `apps/consumer-demo` | `signata-consumer-demo` | `consumer-demo.signata.xyz` |
+
+### One-off CLI deploys
+
+```bash
+npx wrangler login            # first time only
+
+pnpm deploy:web               # builds + publishes apps/web
+pnpm deploy:issuer            # builds + publishes apps/issuer-demo
+pnpm deploy:consumer          # builds + publishes apps/consumer-demo
+pnpm deploy:all               # all three, sequentially
+```
+
+The first `deploy:*` for each app will offer to create the Pages project
+if it doesn't exist yet.
+
+### Git-integrated deploys (recommended)
+
+In the Cloudflare dashboard, create three Pages projects, each connected
+to this repo. Settings per project:
+
+| Setting | `signata-web` | `signata-issuer-demo` | `signata-consumer-demo` |
+| --- | --- | --- | --- |
+| Framework preset | Vite | Vite | Vite |
+| Build command | `pnpm install --frozen-lockfile && pnpm --filter @signata/web build` | `... @signata/issuer-demo build` | `... @signata/consumer-demo build` |
+| Build output directory | `apps/web/dist` | `apps/issuer-demo/dist` | `apps/consumer-demo/dist` |
+| Root directory | _(blank)_ | _(blank)_ | _(blank)_ |
+| Env: `NODE_VERSION` | `20` | `20` | `20` |
+| Env: `VITE_BRIDGE_URL` | — | — | `https://signata.xyz` |
+
+Each subsequent push to `main` deploys production; other branches get
+preview URLs.
+
+### Cross-origin headers
+
+`apps/issuer-demo/public/_headers` sets `Access-Control-Allow-Origin: *`
+on `/.well-known/*` so that any verifier can fetch the DID document
+cross-origin. Without this header, `did:web` resolution from the bridge
+dApp will fail.
 
 ## Licence
 

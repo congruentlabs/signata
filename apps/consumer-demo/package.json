@@ -8,7 +8,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "deploy": "wrangler pages deploy dist --project-name=signata-consumer-demo",
+    "deploy:preview": "wrangler pages deploy dist --project-name=signata-consumer-demo --branch=preview"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

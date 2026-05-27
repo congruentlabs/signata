@@ -1,0 +1,13 @@
+# The DID document is fetched cross-origin by any verifier resolving
+# did:web:issuer-demo.signata.xyz. CORS must be permissive.
+/.well-known/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

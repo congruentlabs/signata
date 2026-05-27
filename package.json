@@ -15,11 +15,16 @@
     "lint": "pnpm -r lint",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
-    "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
+    "clean": "pnpm -r exec rm -rf dist node_modules .turbo",
+    "deploy:web": "pnpm --filter @signata/web build && pnpm --filter @signata/web deploy",
+    "deploy:issuer": "pnpm --filter @signata/issuer-demo build && pnpm --filter @signata/issuer-demo deploy",
+    "deploy:consumer": "pnpm --filter @signata/consumer-demo build && pnpm --filter @signata/consumer-demo deploy",
+    "deploy:all": "pnpm deploy:web && pnpm deploy:issuer && pnpm deploy:consumer"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "wrangler": "^4.0.0"
   }
 }
