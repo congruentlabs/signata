@@ -137,9 +137,10 @@ describe('verifyCredential', () => {
     expect(result.reason).toBe('signature-invalid');
   });
 
-  it('rejects unsupported credential formats', async () => {
-    const fakeJwt = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJ4In0.zzz';
-    const result = await verifyCredential(fakeJwt);
+  it('rejects unsupported credential formats (JSON-LD VC)', async () => {
+    // JSON-LD VCs start with `{` and don't fit either compact form
+    const jsonLdVc = '{"@context":["https://www.w3.org/2018/credentials/v1"],"type":["VerifiableCredential"]}';
+    const result = await verifyCredential(jsonLdVc);
     expect(result.valid).toBe(false);
     expect(result.reason).toBe('unsupported-format');
   });

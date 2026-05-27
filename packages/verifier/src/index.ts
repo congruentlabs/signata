@@ -6,6 +6,8 @@
  * validity window, applies a configurable trust registry, and extracts the
  * disclosed claims.
  *
+ * Supports SD-JWT VC (the EUDI Wallet format) and W3C JWT-VC.
+ *
  * No network calls except those required to resolve issuer DIDs (`did:web`
  * fetches a `did.json`). No PII leaves the caller.
  */
@@ -18,7 +20,10 @@ export type {
   VerifyOptions,
 } from './types.js';
 
-import { decode, verifyIssuerSignature } from './sdjwt.js';
+export { detectFormat, type CredentialFormat } from './jwtvc.js';
+
+import { decode as decodeSdJwtVc, verifyIssuerSignature as verifySdJwtVcSignature } from './sdjwt.js';
+import { decodeJwtVc, detectFormat, verifyJwtVcSignature } from './jwtvc.js';
 import type {
   VerificationFailureReason,
   VerificationResult,
@@ -51,8 +56,9 @@ function asNumber(value: unknown): number | undefined {
 /**
  * Verify a credential string and return a structured result.
  *
- * Currently supports SD-JWT VC. Other formats (W3C JWT-VC, ISO 18013-5
- * mDoc) will return `unsupported-format` until added.
+ * Supports SD-JWT VC (compact form with `~`-separated disclosures) and
+ * W3C JWT-VC (plain compact JWS with a `vc` claim). Other formats
+ * (ISO 18013-5 mDoc, JSON-LD VC) return `unsupported-format`.
  */
 export async function verifyCredential(
   credential: string,
@@ -61,10 +67,14 @@ export async function verifyCredential(
   if (typeof credential !== 'string' || credential.length === 0) {
     return fail('', 'malformed', 'Credential must be a non-empty string');
   }
-  // SD-JWT VC compact form contains at least one `~`. JWT-VC (no SD) has
-  // exactly three segments separated by `.`. We dispatch on shape.
-  if (!credential.includes('~')) {
-    return fail(credential, 'unsupported-format', 'Only SD-JWT VC is currently supported');
+
+  const format = detectFormat(credential);
+  if (format === 'unknown') {
+    return fail(
+      credential,
+      'unsupported-format',
+      'Unrecognised credential shape — expected SD-JWT VC or W3C JWT-VC',
+    );
   }
 
   const now = options.now ?? new Date();
@@ -74,16 +84,16 @@ export async function verifyCredential(
   // 1. Decode (no signature check yet)
   let decoded;
   try {
-    decoded = await decode(credential);
+    decoded = format === 'sd-jwt-vc' ? await decodeSdJwtVc(credential) : decodeJwtVc(credential);
   } catch (err) {
     return fail(credential, 'malformed', errMessage(err));
   }
 
-  const iss = typeof decoded.rawPayload.iss === 'string' ? decoded.rawPayload.iss : '';
-  const vct = typeof decoded.rawPayload.vct === 'string' ? decoded.rawPayload.vct : '';
-  const iat = asNumber(decoded.rawPayload.iat);
-  const nbf = asNumber(decoded.rawPayload.nbf);
-  const exp = asNumber(decoded.rawPayload.exp);
+  const iss = typeof decoded.rawPayload['iss'] === 'string' ? decoded.rawPayload['iss'] : '';
+  const vct = typeof decoded.rawPayload['vct'] === 'string' ? decoded.rawPayload['vct'] : '';
+  const iat = asNumber(decoded.rawPayload['iat']);
+  const nbf = asNumber(decoded.rawPayload['nbf']);
+  const exp = asNumber(decoded.rawPayload['exp']);
 
   if (!iss) {
     return fail(credential, 'malformed', 'Credential is missing `iss` claim', {
@@ -111,10 +121,13 @@ export async function verifyCredential(
 
   // 3. Resolve issuer + verify signature
   try {
-    await verifyIssuerSignature(decoded);
+    if (format === 'sd-jwt-vc') {
+      await verifySdJwtVcSignature(decoded);
+    } else {
+      await verifyJwtVcSignature(decoded);
+    }
   } catch (err) {
     const detail = errMessage(err);
-    // Distinguish resolution failure from signature failure where we can.
     const reason: VerificationFailureReason = /resolv|did/i.test(detail)
       ? 'issuer-unresolvable'
       : 'signature-invalid';
